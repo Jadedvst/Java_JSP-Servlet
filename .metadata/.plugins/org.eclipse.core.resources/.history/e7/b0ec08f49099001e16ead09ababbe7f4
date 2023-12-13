@@ -1,0 +1,57 @@
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="common.JDBConnect"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+JDBConnect jdbc = new JDBConnect();
+
+/* String id ="test1";
+String pwd = "1111";
+String name = "testMem1";// 길이 주의 */
+String id=request.getParameter("id");
+String pwd=request.getParameter("pwd");
+String nn=request.getParameter("nickname");
+if(id!=null&&pwd!=null&&nn!=null){
+	String sql = "INSERT INTO member(id,pass,name)"
+				+"SELECT ?,?,?"
+				+"WHERE NOT EXISTS (SELECT id FROM member WHERE id=?)";
+	PreparedStatement psmt=jdbc.getCon().prepareStatement(sql);
+	psmt.setString(1,id);
+	psmt.setString(2,pwd);
+	psmt.setString(3,nn);
+	psmt.setString(4,id);
+	
+	int inResult = psmt.executeUpdate();
+	if(inResult==1) out.println("회원가입 완료되었습니다");
+	try{
+		psmt.close();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
+jdbc.close();//jbdc instance의 con, psmt가 일치 하지 않아서 따로 닫아줘야함
+
+%>
+<%-- <%
+String id_value=request.getParameter("id");
+String pwd_value=request.getParameter("pwd");
+String nn_value=request.getParameter("nickname");
+%> --%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mission6</title>
+</head>
+<body>
+	<h2>회원 가입</h2>
+	<form>
+		ID: <input type="text" name="id" value="" placeholder="ID" ><br/>
+		PWD: <input type="text" name="pwd" value="" placeholder="Password"><br/>
+		닉네임: <input type="text" name="nickname" value="" placeholder="Nickname"><br/>
+		<input type="submit" value="회원 등록">
+	</form>
+</body>
+</html>

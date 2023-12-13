@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>내장 객체 - response</title>
+</head>
+<body>
+<%!int num = 1; %>
+<%
+String id = request.getParameter("user_id");//전송되는 값 하나
+String pwd = request.getParameter("user_pwd");//전송되는 값 하나
+if(id.equalsIgnoreCase("must")&&pwd.equalsIgnoreCase("1234")){//하드코딩
+	//HyperLink처럼 다른 페이지로 보낸다
+	response.sendRedirect("ResponseWelcome.jsp");
+	request.getRequestDispatcher("ResponseMain.jsp?loginErr=null").forward(request,response);
+}
+else{
+	//ResponseMain에 제어흐름으로 넘겨준다,loginErr(1)이라는 매개변수를 번달
+	request.getRequestDispatcher("ResponseMain.jsp?loginErr="+num++).forward(request,response);
+}
+%>
+</body>
+</html>

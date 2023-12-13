@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>내장 객체 - request</title>
+</head>
+<body>
+<%
+request.setCharacterEncoding("UTF-8");
+String id = request.getParameter("id");//전송되는 값 하나
+String sex = request.getParameter("sex");//전송되는 값 하나
+String[] favo = request.getParameterValues("favo");
+String favoStr = "";
+if(favo!=null){
+	for(int i=0;i<favo.length;i++)
+		favoStr+=favo[i]+" ";
+}
+String intro = request.getParameter("intro").replace("\r\n","<br/>");//textarea tag는 Enter(\r\n)을 br로 변환해줘야함
+%>
+<ul>
+	<li>ID: <%= id %></li>
+	<li>성별: <%= sex %></li>
+	<li>관심사항: <%= favoStr %></li>
+	<li>자기소개: <%= intro %></li>
+</ul>
+</body>
+</html>

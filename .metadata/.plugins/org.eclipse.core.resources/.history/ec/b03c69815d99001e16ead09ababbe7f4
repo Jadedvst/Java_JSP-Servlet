@@ -1,0 +1,8 @@
+package utils;
+
+import jarkarta.servlet.http.HttpServletResponse;
+public class CookieManager {
+//명시한 이름, 값,유지 기간 조건으로 새로운 쿠키 생성
+	public static void makeCookie(HttpServletResponse response, 
+			String cName, String cValue, int cTime);
+}
