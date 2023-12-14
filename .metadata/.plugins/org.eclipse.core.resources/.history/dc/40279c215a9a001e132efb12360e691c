@@ -1,0 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+#title,#content{
+width:1000px;
+margin:10px;
+}
+#title{
+height:30px;
+}
+#content{
+height:500px;
+}
+#bt{
+width:50px;
+height:30px;
+}
+</style>
+<title>Insert Board</title>
+</head>
+<body>
+<h2>글쓰기</h2>
+
+	<%
+	String id=null;
+	String isLogin = request.getParameter("isLogin");
+	if(isLogin!= null) out.print("Not Logged in");
+	String LoginId = request.getParameter("loginid");
+	if(LoginId!= null) id=LoginId;
+	%>
+	<script>
+		function validateForm(form){
+			if(!form.title.value){
+				alert("title please");
+				return false;
+			}
+			if(form.content.value==""){
+				alert("content please");
+				return false;
+			}
+			
+		}
+	</script>
+<form action="./InsertBoardProcess.jsp" method="post" name="onBoard" 
+			onsubmit="return validateForm(this);"> <!-- false일시 출력 안됨 -->
+	<div id="board">
+	<input type="text" id="title" name="title" placeholder="제목을 입력하세요"><br/>
+	<input type="text" id="content" name="content" placeholder="내용을 입력하세요"><br/>
+	<input type="text" id="id" name="id" value=<%=id%> readOnly>
+	<input type="submit" id="bt"value="submit"><br/>
+<%if(isLogin!=null){ %>
+	<a href="./BoardLoginSession/Logout.jsp">[Logout]</a>
+<%} %>
+	</div>
+</form>
+
+</body>
+</html>

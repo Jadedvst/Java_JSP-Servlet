@@ -16,3 +16,15 @@
 1702456399278	Copy file
 1702456462931	Copy file
 1702456472735	Rename resource 'ResponseLogin.jsp'
+1702533337511	Copy file
+1702533348593	Rename resource 'IdSaveProcess.jsp'
+1702536989588	Move 4 resources to 'mission6'
+1702538719758	Copy files
+1702538988109	Rename resource 'InsertProcess.jsp'
+1702539042404	Copy package
+1702539061435	Rename type 'MemberDAO'
+1702539070610	Rename type 'MemberDTO'
+1702541090891	Copy folder
+1702541314109	Rename resource '06Session'
+1702543286409	Rename resource 'InsertFail.jsp'
+1702543305890	Rename resource 'InsertSuccess.jsp'

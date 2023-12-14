@@ -1,0 +1,89 @@
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="common.JDBConnect"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+</head>
+<body>
+<%
+//Login check
+if (session.getAttribute("UserId")==null){ //session:내장객체 
+	response.sendRedirect("./BoardLoginSession/LoginForm.jsp");
+ 	/* response.sendRedirect("../../06Session/LoginForm.jsp");  */
+
+%>	<!-- LOGOUT MODE -->
+
+<% 
+} else{ 
+%>	<!-- LOGIN MODE -->
+<%-- 	<%MemberDTO m = (MemmberDTO)session.getAttribute("member"); %>
+	<%=m.getName() %> --%>
+<%=session.getAttribute("UserName")%> Uploading...<br/>
+<a href="./BoardLoginSession/Logout.jsp">[Logout]</a>
+	
+<%
+JDBConnect jdbc = new JDBConnect();
+
+/* String id ="test1";
+String pwd = "1111";
+String name = "testMem1";// 길이 주의 */
+String title=request.getParameter("title");
+String content=request.getParameter("content");
+String id=request.getParameter("id");
+if(id!=null&&title!=null&&content!=null){
+	String sql = "INSERT INTO board(title,content,id)"
+				+"SELECT ?,?,?";
+	PreparedStatement psmt=jdbc.getCon().prepareStatement(sql);
+	psmt.setString(1,title);
+	psmt.setString(2,content);
+	psmt.setString(3,id);
+
+	
+	try{
+	int inResult = psmt.executeUpdate();
+		if(inResult==1) { 
+		
+			response.sendRedirect("InsertSuccess.jsp");
+			request.getRequestDispatcher("InsertForm.jsp?idErr=null");
+		}
+		else {
+			//response.sendRedirect("InsertFail.jsp");
+			request.getRequestDispatcher("InsertForm.jsp?idErr="+id).forward(request,response);
+		}
+	}
+	catch(Exception e) {
+		String str = e.getMessage();
+		//response.sendRedirect("InsertFail.jsp");
+		request.getRequestDispatcher("InsertForm.jsp?idErr="+str).forward(request,response);
+	}
+/* 	try{
+		psmt.executeUpdate();
+		out.println("회원가입 완료되었습니다");
+		response.sendRedirect("InsertSuccess.jsp");
+		request.getRequestDispatcher("InsertForm.jsp?idErr=null");
+	}
+	catch(Exception e) {
+		String str = e.getMessage();
+		out.println(e.getMessage());
+		//response.sendRedirect("InsertFail.jsp");
+		request.getRequestDispatcher("InsertForm.jsp?idErr="+id).forward(request,response);
+	} */
+	try{
+		psmt.close();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
+jdbc.close();//jbdc instance의 con, psmt가 일치 하지 않아서 따로 닫아줘야함
+
+%>
+<% 
+	}
+%>
+</body>
+</html>
