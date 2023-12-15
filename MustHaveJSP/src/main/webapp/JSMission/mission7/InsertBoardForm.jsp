@@ -16,6 +16,9 @@ height:30px;
 #content{
 height:500px;
 }
+#id{
+margin:10px;
+}
 #bt{
 width:50px;
 height:30px;
@@ -26,22 +29,18 @@ height:30px;
 <body>
 <h2>글쓰기</h2>
 
-<%-- 	<%
-	String isLogin = request.getParameter("isLogin");
-	String LoginId = request.getParameter("loginid");
-	String sid = "";
-	if (session.getAttribute("UserId")!=null){
-		MemberDTO m = (MemberDTO)session.getAttribute("member"); 
-		isLogin = "true";
-		LoginId = m.getId();
-	}
-	if(LoginId!= null) sid=LoginId;
-	
-	%> --%>
 	<%
-	String sid = request.getParameter("id");
+	MemberDTO m = (MemberDTO)session.getAttribute("member"); 
+	//m==null이면 로그인이 되지 않았다는 의미
+	if (m==null){
+		response.sendRedirect("./BoardLoginSession/LoginForm.jsp");
+		return;
+	}
+	%>
+	<%
 	String boardErr = request.getParameter("boardErr");
-	if(boardErr!= null) out.print("Upload Failed");;
+	if(boardErr!= null) out.print("Upload Failed");
+	
 	%>
 	<script>
 		function validateForm(form){
@@ -61,12 +60,9 @@ height:30px;
 	<div id="board">
 	<input type="text" id="title" name="title" placeholder="제목을 입력하세요"><br/>
 	<input type="text" id="content" name="content" placeholder="내용을 입력하세요"><br/>
-	<%-- <input type="text" id="id" name="id" value="<%=sid%>" readOnly> --%>
-	<input type="text" id="id" name="id" placeholder="작성자">
+	<input type="text" id="name" name="name" value="<%=m.getName()%>" readonly>
 	<input type="submit" id="bt"value="submit"><br/>
-<%-- <%if(isLogin!=null){ %> --%>
 	<a href="./BoardLoginSession/Logout.jsp">[Logout]</a>
-<%-- <%}else out.print("Not Logged in");%> --%>
 	</div>
 </form>
 

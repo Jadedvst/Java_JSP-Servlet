@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+	<table border="1" width="90%">
+		<tr>
+			<td align="center">
+			<% if (session.getAttribute("member")==null){ %>
+				<a href="../06Session/LoginForm.jsp">[Login]</a>
+			<% } else { %>
+				<a href="../06Session/Logout.jsp">[Logout]</a>
+			<% }%>
+			<!-- 공백 확보용 특수 문자 -->
+				&nbsp;&nbsp;&nbsp;
+				<a href="../08Board/BoardList.jsp">게시판(페이징X)</a>	
+				&nbsp;&nbsp;&nbsp;
+				<a href="../09PagingBoard/BoardList.jsp">게시판(페이징O)</a>	
+				<select name="searchField">
+					<option value="title">Title</option>
+					<option value="content">Content</option>
+				</select>
+				<input type="text" id="searchWord" name="searchWord">
+				<input type="submit" value="검색하기"><br/>
+			</td>
+		</tr>
+	</table>

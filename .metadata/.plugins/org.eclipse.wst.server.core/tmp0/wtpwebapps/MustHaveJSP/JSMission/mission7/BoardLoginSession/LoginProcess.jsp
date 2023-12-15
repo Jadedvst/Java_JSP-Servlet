@@ -13,20 +13,21 @@ String driver = application.getInitParameter("MySQLDriver");
 String url = application.getInitParameter("MySQLURL");
 String id =application.getInitParameter("MySQLId");
 String pwd =application.getInitParameter("MySQLPwd");
-
 MemberDAO dao = new MemberDAO(driver,url,id,pwd);
-MemberDTO memberDTO = dao.getMemberDTO(user_id, user_pw);
 
-if(memberDTO.getId()!=null){
-	//Session에 로그인 정보 저장//
-	session.setAttribute("UserId",memberDTO.getId()); 
-	session.setAttribute("UserName",memberDTO.getName());
-/* 	session.setAttribute("member",memberDTO); */
-/* 	response.sendRedirect("../InsertBoardForm.jsp?loginid="+user_id); 내용 사라짐*/
-	request.getRequestDispatcher("../InsertBoardForm.jsp?loginid="+user_id).forward(request,response);
-}else{
-	request.setAttribute("LoginErrMsg","Login Error"+user_id+" "+user_pw);
-	request.getRequestDispatcher("LoginForm.jsp").forward(request,response);
+MemberDTO memberDTO = dao.getMemberDTO(user_id, user_pw);
+try{
+	if(memberDTO.getId()!=null){
+		//Session에 로그인 정보 저장//
+		session.setAttribute("member",memberDTO);
+		response.sendRedirect("../InsertBoardForm.jsp");
+	}else{
+		request.setAttribute("LoginErrMsg","Login Error"+user_id+" "+user_pw);
+		request.getRequestDispatcher("LoginForm.jsp").forward(request,response);
+	}
+}catch(Exception e){
+	e.getStackTrace();
 }
+finally{dao.close();}
 
 %>

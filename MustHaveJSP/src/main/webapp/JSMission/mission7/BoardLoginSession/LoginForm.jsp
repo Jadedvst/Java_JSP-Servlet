@@ -1,3 +1,4 @@
+<%@page import="membership.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,13 +12,14 @@
 	<span style="color: red; font-size:1.2em;">
 		<%= request.getAttribute("LoginErrMsg")==null?
 				"" : request.getAttribute("LoginErrMsg")%>
+		<%MemberDTO m = (MemberDTO)session.getAttribute("member"); %>
 	</span>
 	<%
 	//Login check
-	if (session.getAttribute("UserId")==null){ //session:내장객체 
-/* 	if (session.getAttribute("member")==null){ */
+	if (m==null){
 	
 	%>	<!-- LOGOUT MODE -->
+		<h3>Please login before using the board</h3>
 		<script>
 		function validateForm(form){
 			if(!form.user_id.value){
@@ -39,9 +41,9 @@
 	<% 
 	} else{ 
 	%>	<!-- LOGIN MODE -->
-<%-- 	<%MemberDTO m = (MemmberDTO)session.getAttribute("member"); %>
-	<%=m.getName() %> --%>
-		<%=session.getAttribute("UserName")%> Login Success.<br/>
+ 
+	"<%=m.getName() %>" Login Success.<br/>
+		<a href="../InsertBoardForm.jsp">[Board]</a><br/>
 		<a href="Logout.jsp">[Logout]</a>
 	<% 
 	}

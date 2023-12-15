@@ -5,8 +5,9 @@ public class BoardDTO {
 	private String title;
 	private String content;
 	private String id;
-	private String postdate;
+	private java.sql.Date postdate;
 	private int visitcount;
+	private String name;
 	
 	
 	@Override
@@ -38,11 +39,17 @@ public class BoardDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getPostdate() {
+	public java.sql.Date getPostdate() {
 		return postdate;
 	}
-	public void setPostdate(String postdate) {
+	public void setPostdate(java.sql.Date postdate) {
 		this.postdate = postdate;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public int getVisitcount() {
 		return visitcount;
