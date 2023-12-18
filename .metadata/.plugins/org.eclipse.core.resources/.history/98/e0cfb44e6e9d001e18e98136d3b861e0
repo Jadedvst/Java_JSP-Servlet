@@ -1,0 +1,50 @@
+<%@page import="boardManagement.BoardDTO"%>
+<%@page import="boardManagement.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- 로그인 확인 -->
+<%@ include file="./IsLoggedIn.jsp" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+</head>
+<body>
+
+<%
+//폼값 받기
+String title=request.getParameter("title");
+String content=request.getParameter("content");
+
+//폼값을 DTO 객체에 저장
+BoardDTO dto = new BoardDTO();
+dto.setTitle(title);
+dto.setContent(content);
+dto.setId(session.getAttribute("UserId").toString());
+
+//DAO 객체를 통해 DB에 DTO 저장
+BoardDAO dao = new BoardDAO(application);
+try{
+	if(id!=null&&title!=null&&content!=null){
+		int inResult = dao.insertBoardDTO(title, content,id);
+		//Success
+			if(inResult==1) { 
+				response.sendRedirect("InsertBoardSuccess.jsp");
+				request.getRequestDispatcher("InsertBoardForm.jsp?boardErr=null");
+			}
+		//Failed
+			else {
+				//response.sendRedirect("InsertFail.jsp");
+				request.getRequestDispatcher("InsertBoardForm.jsp?boardErr=1").forward(request,response);
+			}
+	}
+}catch(Exception e){
+	e.getStackTrace();
+}
+finally{dao.close();}
+
+%>
+</body>
+</html>

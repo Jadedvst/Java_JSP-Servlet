@@ -83,6 +83,186 @@ public class BoardDAO extends JDBConnect {
 		}
 		return bbs;
 	}
+	
+	public List<BoardDTO> selectListPage(Map<String,Object> map) {
+		//게시물 목록을 담을 변수
+		List<BoardDTO> bbs = new Vector<>();
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String query = "SELECT * FROM ( "
+					 + "	SELECT Tb.*, ROWNUM rNum FROM ( "
+					 + "		SELECT * FROM board ";
+		
+			if(map.get("searchWord")!=null) {
+				query+=" WHERE "+map.get("searchField")
+					  +" LIKE '%" +map.get("searchWord") + "%' ";
+			}
+			
+				query +="		ORDER BY num DESC "
+					  + "	) Tb "
+					  + " ) "
+					  + "WHERE rNum BETWEEN ? AND ?";
+		
+		try {
+			ps = getCon().prepareStatement(query);
+			ps.setString(1,map.get("start").toString());
+			ps.setString(1,map.get("end").toString());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setNum(rs.getInt(1));
+				dto.setTitle(rs.getString(2));
+				dto.setContent(rs.getString(3));
+				dto.setId(rs.getString(4));
+				dto.setPostdate(rs.getDate(5));
+				dto.setVisitcount(rs.getInt(6));
+				
+				bbs.add(dto);
+			}
+		
+		}catch(Exception e) {
+			System.out.println("게시물 조회 중 예외 발생");
+			e.printStackTrace();
+		}
+		return bbs;
+	}
+	
+	//지정 게시물 조건에 맞는 내용 반환
+		public BoardDTO selectView(int num) {
+			BoardDTO dto = new BoardDTO();
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			
+			String query = "SELECT b.*,m.name "
+					+ " FROM member m INNER JOIN board b "
+					+ " ON m.id = b.id "
+					+ " WHERE num=?";
+			try {
+				ps = getCon().prepareStatement(query);
+				ps.setInt(1, num);
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					dto.setNum(rs.getInt(1));
+					dto.setTitle(rs.getString(2));
+					dto.setContent(rs.getString(3));
+					dto.setId(rs.getString(4));
+					dto.setPostdate(rs.getDate(5));
+					dto.setVisitcount(rs.getInt(6));
+					dto.setName(rs.getString(7));
+				}
+			
+			}catch(Exception e) {
+				System.out.println("게시물 조회 중 예외 발생");
+				e.printStackTrace();
+			}
+			return dto;
+		}
+		
+	public void updateVisitCount(int num) {
+		String query = "UPDATE board "
+				+ " SET visitcount = visitcount+1 "
+				+ " WHERE num=?";
+		PreparedStatement ps = null;
+		try {
+			ps = getCon().prepareStatement(query);
+			ps.setInt(1, num);
+			ps.executeUpdate();
+//			ps.executeQuery();
+			
+		}catch(Exception e) {
+			System.out.println("게시물 입력 중 예외 발생 ("+e.getMessage()+")");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public int insertWrite(BoardDTO dto) {
+		int result = 0;
+
+		String query = "INSERT INTO board(title,content,id,visitcount) Values ("
+				+ "?,?,?,0)";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = getCon().prepareStatement(query);
+			ps.setString(1, dto.getTitle());
+			ps.setString(2, dto.getContent());
+			ps.setString(3, dto.getId());
+			
+			result = ps.executeUpdate();
+			
+		}catch(Exception e) {
+			System.out.println("게시물 입력 중 예외 발생 ("+e.getMessage()+")");
+			e.printStackTrace();
+			return 0;
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public int updateEdit(BoardDTO dto) {
+		String query = "UPDATE board "
+				+ " SET title =?,content=? "
+				+ " WHERE num=?";
+		PreparedStatement ps = null;
+		int result =0;
+		try {
+			ps = getCon().prepareStatement(query);
+			ps.setString(1, dto.getTitle());
+			ps.setString(2, dto.getContent());
+			ps.setInt(3, dto.getNum());
+			
+			result = ps.executeUpdate();
+			
+		}catch(Exception e) {
+			System.out.println("게시물 입력 중 예외 발생 ("+e.getMessage()+")");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public int deletePost(BoardDTO dto) {
+		String query = "DELETE FROM board "
+				+ " WHERE num=?";
+		PreparedStatement ps = null;
+		int result =0;
+		try {
+			ps = getCon().prepareStatement(query);
+			ps.setInt(1, dto.getNum());
+			
+			result = ps.executeUpdate();
+			
+		}catch(Exception e) {
+			System.out.println("게시물 입력 중 예외 발생 ("+e.getMessage()+")");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	public int insertBoardDTO(String utitle, String ucontent, String uid) {
 		BoardDTO dto = new BoardDTO();
 		String query = "INSERT INTO board(title,content,id) Values (?,?,?)";
