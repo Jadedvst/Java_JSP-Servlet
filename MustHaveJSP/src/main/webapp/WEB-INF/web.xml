@@ -27,4 +27,14 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
+    <servlet> <!-- Servlet 등록 -->
+    <servlet-name>HelloServlet</servlet-name>
+    <servlet-class>servlet.HelloServlet</servlet-class>
+  </servlet> 
+  <servlet-mapping> <!-- Servlet과 요청명 매핑 -->
+    <servlet-name>HelloServlet</servlet-name>
+    <url-pattern>/12Servlet/HelloServlet.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
