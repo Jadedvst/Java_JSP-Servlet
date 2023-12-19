@@ -132,7 +132,7 @@ public class BoardDAO extends JDBConnect {
 	
 	//지정 게시물 조건에 맞는 내용 반환
 		public BoardDTO selectView(int num) {
-			BoardDTO dto = new BoardDTO();
+			BoardDTO dto = null;
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			
@@ -145,6 +145,7 @@ public class BoardDAO extends JDBConnect {
 				ps.setInt(1, num);
 				rs = ps.executeQuery();
 				while(rs.next()) {
+					dto = new BoardDTO();
 					dto.setNum(rs.getInt(1));
 					dto.setTitle(rs.getString(2));
 					dto.setContent(rs.getString(3));
@@ -264,7 +265,6 @@ public class BoardDAO extends JDBConnect {
 	}
 	
 	public int insertBoardDTO(String utitle, String ucontent, String uid) {
-		BoardDTO dto = new BoardDTO();
 		String query = "INSERT INTO board(title,content,id) Values (?,?,?)";
 	
 		PreparedStatement ps = null;
@@ -290,7 +290,7 @@ public class BoardDAO extends JDBConnect {
 	}
 	public BoardDTO getBoardDTO(String utitle, String ucontent, String uid) {
 		String query = "SELECT * FROM member WHERE title=? AND content=? AND id=?";
-		BoardDTO dto = new BoardDTO();
+		BoardDTO dto = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -302,7 +302,7 @@ public class BoardDAO extends JDBConnect {
 			rs = ps.executeQuery();
 		
 			while(rs.next()) {
-	
+				dto = new BoardDTO();
 				dto.setNum(rs.getInt(1));
 				dto.setTitle(rs.getString(2));
 				dto.setContent(rs.getString(3));

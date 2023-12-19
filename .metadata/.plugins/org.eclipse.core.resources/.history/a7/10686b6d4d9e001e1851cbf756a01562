@@ -1,0 +1,27 @@
+package servlet;
+
+import java.io.IOException;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+public class TestPass extends HttpServlet {
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String nativelan = req.getParameter("native");
+		String english = req.getParameter("english");
+		String math = req.getParameter("math");
+		
+		if (nativelan>50&&english>50&&math>50) req.setAttribute("testMessage", "패스");
+		else {
+			if(admin_id.equals(id)) req.setAttribute("authMessage", admin_id + "는 최고 관리자입니다.");
+			else req.setAttribute("authMessage", "귀하는 회원이 아닙니다.");
+		}
+		req.getRequestDispatcher("/12Servlet/MemberAuth.jsp").forward(req, resp);
+	}
+}

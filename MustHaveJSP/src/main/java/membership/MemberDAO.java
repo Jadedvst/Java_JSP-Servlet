@@ -3,6 +3,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import common.JDBConnect;
+import jakarta.servlet.ServletContext;
 
 
 
@@ -21,8 +22,12 @@ public class MemberDAO extends JDBConnect {
 		super(drv,url,id,pw);
 	}
 	
+	public MemberDAO(ServletContext application) {
+		super(application);
+	}
+
 	public MemberDTO getMemberDTO(String uid, String upass) {
-		MemberDTO dto = new MemberDTO();
+		MemberDTO dto = null; //초기값 설정하지 않을시 불러와지는 값이 없으면 ERROR발생
 		String query = "SELECT * FROM member WHERE id=? AND pass=?";
 		
 		PreparedStatement ps = null;
@@ -35,7 +40,7 @@ public class MemberDAO extends JDBConnect {
 			rs = ps.executeQuery();
 
 			if(rs.next()) {
-				MemberDTO m = new MemberDTO();
+				dto = new MemberDTO();
 				dto.setId(rs.getString(1));
 				dto.setPass(rs.getString(2));
 				dto.setName(rs.getString(3));
