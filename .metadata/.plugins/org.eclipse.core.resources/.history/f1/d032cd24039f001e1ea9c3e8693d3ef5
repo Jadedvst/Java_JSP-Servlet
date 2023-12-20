@@ -1,0 +1,50 @@
+<%@page import="fileupload.MyFileDTO"%>
+<%@page import="fileupload.MyFileDAO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FileUpload</title>
+</head>
+<body>
+	<h2>DB에 등록된 파일 목록 보기(List)</h2>
+	<a href="FileUploadMain.jsp">AttachFile1</a>
+	<a href="MultiUploadMain.jsp">AttachFile2</a>
+	<%
+	MyFileDAO dao = new MyFileDAO();
+	List<MyFileDTO> fileLists = dao.myFileList();
+	dao.close();
+	%>
+	<table border="1" width="90%">
+		<tr>
+			<th>No</th><th>작성자</th><th>Title</th><th>Category></th>
+			<th>Original File Name</th><th>Saved File Name</th><th>Post Date</th>
+		</tr>
+	<% for (myFileDTO f: fileLists){ %>
+		<tr align="center">
+			<td align="center"><%=dto.getIdx()%></td>
+			<td align="center"><%=dto.getTitle()%></td>
+			<td align="center"><%=dto.getCate()%></td>
+			<td align="center"><%=dto.getOfile()%></td>
+			<td align="center"><%=dto.getSfile()%></td>
+			<td align="center"><%=dto.getPostdate()%></td>
+			<td align="left"> 
+				<a href="View.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle()%></a>
+			</td>
+		</tr>
+<%
+	}
+}
+%>
+	</table>
+	<!-- 목록 하단의 글쓰기버튼 -->
+	<table border="1" width="90%">
+		<tr align="right">
+			<td><button type="button" onclick="location.href='Write.jsp';">글쓰기</button></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,47 @@
+package fileupload;
+import java.sql.PreparedStatement;
+
+import common.JDBConnect;
+import jakarta.servlet.ServletContext;
+
+public class MyFileDAO extends JDBConnect {
+	
+	public MyFileDAO(String drv,String url, String id,String pw) {
+		super(drv,url,id,pw);
+	}
+	
+	public MyFileDAO(ServletContext application) {
+		super(application);
+	}
+	
+	public int insertWrite(MyFileDTO dto) {
+		int result = 0;
+
+		String query = "INSERT INTO myfile(title,cate,ofile,sfile) Values ("
+				+ "?,?,?,?)";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = getCon().prepareStatement(query);
+			ps.setString(1, dto.getTitle());
+			ps.setString(2, dto.getCate());
+			ps.setString(3, dto.getOfile());
+			ps.setString(3, dto.getSfile());
+			
+			result = ps.executeUpdate();
+			
+		}catch(Exception e) {
+			System.out.println("Insert 중 예외 발생 ("+e.getMessage()+")");
+			e.printStackTrace();
+			return 0;
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+}
