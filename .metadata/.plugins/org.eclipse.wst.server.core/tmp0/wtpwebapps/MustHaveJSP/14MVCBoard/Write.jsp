@@ -34,12 +34,14 @@
 <title>파일 첨부형 게시판</title>
 </head>
 <body>
-<jsp:include page="../Common/Link.jsp"/>
 <h2>파일 첨부형 게시판 - 글쓰기(Write)</h2>
-//////////////////////////////////////////////////////////////////////////////////////////////
-<form action="./mvcboard/write.do" method="post" name="writeFrm" enctype="multipart/form-data"
+<form action="../mvcboard/write.do" method="post" name="writeFrm" enctype="multipart/form-data"
 			onsubmit="return validateForm(this);"> <!-- false일시 출력 안됨 -->
 	<table border="1" width="90%">
+		<tr>
+			<td>작성자</td>
+			<td><input type="text" id="name" name="name" placeholder="이름을 입력하세요" style="width:150px;"/></td>
+		</tr>
 		<tr>
 			<td>제목</td>
 			<td><input type="text" id="title" name="title" placeholder="제목을 입력하세요" style="width:90%;"/></td>
@@ -49,10 +51,18 @@
 			<td><textarea id="content" name="content" placeholder="내용을 입력하세요" style="width:90%;height:100px;"></textarea></td>
 		</tr>
 		<tr>
+			<td>첨부 파일</td>
+			<td><input type="file" id="ofile" name="ofile"/></td>
+		</tr>
+		<tr>
+			<td>비번</td>
+			<td><input type="password" id="pass" name="pass"/></td>
+		</tr>
+		<tr>
 			<td colspan="2" align="center">
 				<button type="submit">작성 완료</button>
-				<button type="reset">다시 입력</button>
-				<button type="submit" onclick="location.href='List.jsp';">목록보기</button>
+				<button type="reset" style="background-color:orange;">RESET</button>
+				<button type="submit" onclick="location.href='../mvcboard/list.do';">목록 보기</button>
 			</td>
 		</tr>
 	</table>

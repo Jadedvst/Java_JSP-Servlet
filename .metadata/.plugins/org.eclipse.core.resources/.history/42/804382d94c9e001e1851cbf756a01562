@@ -1,9 +1,0 @@
-package servlet;
-
-import jakarta.servlet.http.HttpServlet;
-
-public class TestPass extends HttpServlet {
-
-	String native = req.getParameter("native");
-
-}

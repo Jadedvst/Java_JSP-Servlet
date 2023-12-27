@@ -1,0 +1,14 @@
+package model2.mvcboard;
+
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+
+@WebServlet("/mvcboard/edit.do")
+@MultipartConfig(
+		maxFileSize = 1024 * 1024 * 1,
+		maxRequestSize = 1024 * 1024 * 10
+)
+public class EditController extends HttpServlet {
+
+}

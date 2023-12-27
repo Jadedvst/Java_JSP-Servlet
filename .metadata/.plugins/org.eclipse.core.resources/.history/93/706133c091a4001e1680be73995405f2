@@ -1,0 +1,43 @@
+package model2.mvcboard;
+
+import java.io.IOException;
+
+import fileupload.FileUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet("/mvcboard/pass.do")
+public class PassController extends HttpServlet {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("mode", req.getParameter("mode"));
+		req.getRequestDispatcher("/14MVCBoard/Pass.jsp").forward(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//Get Parameters
+		String mode = req.getParameter("mode");
+		String pass = req.getParameter("pass");
+		int idx = 0;
+		String sidx = req.getParameter("idx");
+		if(sidx!=null) idx = Integer.parseInt(sidx);
+	
+		//Check pwd
+		MVCBoardDAO dao = new MVCBoardDAO();
+		boolean confirmed = dao.confirmPassword(pass, idx);
+		dao.close();
+		
+		if(confirmed) {// pwd matches
+			if(mode.equals("edit")) { //Edit mode
+				HttpSession session = req.getSession();
+				session.setAttribute("pass", pass);
+				resp.sendRedirect("../mvcboard/edit.do?idx="+idx);
+			}
+		}
+	}
+}
