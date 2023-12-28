@@ -259,7 +259,7 @@ public class MVCBoardDAO extends JDBConnect {
 		return result;
 	}
 	
-	public int updatePost(MVCBoardDTO dto) {
+	public void updatePost(MVCBoardDTO dto) {
 		int result = 0;
 		String query = "UPDATE mvcboard "
 				 	 + " SET title=?,name=?,content=?,ofile=?,sfile=? "
@@ -286,6 +286,5 @@ public class MVCBoardDAO extends JDBConnect {
 				e.printStackTrace();
 			}
 		}
-		return result;
 	}
 }

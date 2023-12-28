@@ -89,10 +89,9 @@ public class EditController extends HttpServlet {
 		dao.close();
 	
 		if(result==1) {
-			session.removeAttribute("pass");
-			resp.sendRedirect("../mvcboard/view.do?idx="+sidx);
+			resp.sendRedirect("../mvcboard/list.do");
 		}else {
-			JSFunction.alertLocation(resp, "Wrong Password", "../mvcboard/view.do?idx="+sidx);
+			JSFunction.alertLocation(resp, "Content Upload Failed", "../mvcboard/write.do");
 		}
 	}
 }
