@@ -18,6 +18,8 @@ import utils.JSFunction;
 		maxRequestSize = 1024 * 1024 * 10
 )
 public class EditController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int idx = 0;
@@ -65,7 +67,7 @@ public class EditController extends HttpServlet {
 		dto.setName(req.getParameter("name"));
 		dto.setTitle(req.getParameter("title"));
 		dto.setContent(req.getParameter("content"));
-		dto.setPass(req.getParameter("pass"));
+		dto.setPass(pass);
 		
 		// Set OriginalFileName and SavedFileName
 		if(originalFileName!="") {

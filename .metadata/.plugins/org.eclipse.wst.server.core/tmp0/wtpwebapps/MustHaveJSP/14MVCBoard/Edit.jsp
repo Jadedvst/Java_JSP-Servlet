@@ -33,7 +33,8 @@
 <form action="../mvcboard/edit.do" method="post" name="writeFrm" enctype="multipart/form-data"
 			onsubmit="return validateForm(this);">
 	<input type="hidden" id="idx" name="idx" value="${ dto.idx }"/>
-	<input type="hidden" id="prevOfile" name="prevOfile" value="${ dto.ofile }"/>
+	현재 첨부된 파일: <input type="text" readonly id="prevOfile" name="prevOfile" value="${ dto.ofile }"/><br/>
+	(파일 선택시 첨부 파일이 변경됩니다.)
 	<input type="hidden" id="prevSfile" name="prevSfile" value="${ dto.sfile }"/>
 	
 	<table border="1" width="90%">
